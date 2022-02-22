@@ -71,9 +71,10 @@ def preprocess(path, scale=3):
 class SRCNN(nn.Module):
     def __init__(self):
         super(SRCNN, self).__init__()
-        self.conv1 = nn.Conv2d(in_channels=1, out_channels=64, kernel_size=9, padding="same")
-        self.conv2 = nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1, padding="same")
-        self.conv3 = nn.Conv2d(in_channels=32, out_channels=1, kernel_size=5, padding="same")
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=64, kernel_size=9, padding=9//2) # we want to preserve the image size, so we could either make the padding equals to kernal_size//2 or use padding = "same" ( pytotch will automatically compute the padding that preserves the image for us)
+        self.conv2 = nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1, padding=1//2)
+        self.conv3 = nn.Conv2d(in_channels=32, out_channels=1, kernel_size=5, padding=5//2)
+
 
     def forward(self, x):
         out = F.relu(self.conv1(x))
